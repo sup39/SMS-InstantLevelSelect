@@ -210,10 +210,10 @@ handlePlaza:
 ## reset QFT
   li  r0, 1
   stb r0, 0xB3(r817F)
-### Ingame Timer: Reset Stopwatch Flag
-  stb r0, 0x100(r817F)
-### set SGT Disable Custom IG Timer Flag = 1 TODO
-  #stb r0, 0x101(r817F)
+### set SGT Reset Stopwatch Flag
+# stb r0, 0x100(r817F)
+### set SGT Disable Custom IG Timer Flag = 1
+# stb r0, 0x101(r817F)
 ### en flag
   stb r0, $LevelSelect.en@l(r817F)
 ## FlagManager
@@ -222,13 +222,15 @@ handlePlaza:
 ### reset coin counter(40002)
   li  r0, 0
   stw r0, 0xD8(rFM)
-#### set SGT Stop Stopwatch Flag = 0 TODO
-  #stw r0, 0x10C(r817F)
-### Got a Shine in previous stage (30006)
-#### + watched AP, court, peach kidnap, FLUDD theft flag
+##### set SGT Stop Stopwatch Flag = 0
+#  stw r0, 0x10C(r817F)
+### set flag
   lhz r0, 0xCC(rFM)
-  ori r0, r0, 0x40FF
-#### clear watched Pinna kidnap FMV flag
+#### Got a Shine in previous stage (30006)
+  ori r0, r0, 0x4000
+##### + watched AP, court, peach kidnap, FLUDD theft flag
+# ori r0, r0, 0x40FF
+#### clear watched Pinna kidnap FMV flag (prevent spawn in PP unlocked position)
   rlwinm r0, r0, 0, 0x14, 0x12
   sth r0, 0xCC(rFM)
 ## rApp = gpApplication
